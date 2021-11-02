@@ -3,4 +3,4 @@ export enum UserRole {
     ADMIN="ADMIN"
 }
 
-export const ADMINMAINLIST=["debjani1707@gmail.com"];
+export const ADMINMAINLIST=["webops@shaastra.org"];
