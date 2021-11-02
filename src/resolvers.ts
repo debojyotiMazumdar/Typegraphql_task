@@ -4,6 +4,7 @@ import { createToDoInput, createUserInput,EditToDoInput,LoginUserInput } from ".
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import MyContext from "./context";
+import { ADMINMAINLIST, UserRole } from "./utils";
 
 @Resolver(_type=>ToDo)
 class UserAndTodo{
@@ -12,12 +13,17 @@ class UserAndTodo{
     async registerUser(
         @Arg("Data") createUser:createUserInput,
     ){
-        const hashed_password=await bcrypt.hash(createUser.password,10);
         const user=User.create({
                 name:createUser.name,
                 email:createUser.email,
-                password:hashed_password,
+                password:createUser.password,
         });
+
+        if(ADMINMAINLIST.includes(createUser.email)){
+            user.role=UserRole.ADMIN;
+            console.log("the user now is");
+            console.log(user);
+        }
 
         user.save();
 

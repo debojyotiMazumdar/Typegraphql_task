@@ -15,7 +15,7 @@ class createUserInput{
 
     @Field()
     @IsNotEmpty()
-    @Matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!#$%^&*])/)
+    @Matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])/)
     password:string;
 }
 

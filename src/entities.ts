@@ -1,9 +1,15 @@
 import { Field, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity,PrimaryGeneratedColumn,ManyToOne, OneToMany} from "typeorm";
-
+import { BaseEntity, Column, Entity,PrimaryGeneratedColumn,ManyToOne, OneToMany, BeforeInsert} from "typeorm";
+import bcrypt from "bcrypt";
+import { UserRole } from "./utils";
 
 @Entity()
 class User extends BaseEntity{
+
+    @BeforeInsert()
+    async hashPassword(){
+        this.password=await bcrypt.hash(this.password,10);
+    }
 
     @PrimaryGeneratedColumn()
     id:string
@@ -16,6 +22,11 @@ class User extends BaseEntity{
 
     @Column()
     password:string
+
+    @Column("enum",{enum:UserRole,default:UserRole.USER})
+    @Field(()=>UserRole)
+    role:UserRole
+
 
     @OneToMany(_type=>ToDo,todo=>todo.user)
     todos:ToDo[];
